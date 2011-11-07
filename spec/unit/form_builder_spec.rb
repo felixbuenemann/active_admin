@@ -65,13 +65,19 @@ describe ActiveAdmin::FormBuilder do
   end
 
   context "when polymorphic relationship" do
-    it "should raise error" do
-      lambda {
-        comment = ActiveAdmin::Comment.new
-        active_admin_form_for comment, :url => "admins/comments" do |f|
-          f.inputs :resource
-        end
-      }.should raise_error(Formtastic::PolymorphicInputWithoutCollectionError)
+    
+    let(:body) do
+      comment = ActiveAdmin::Comment.new
+      
+      active_admin_form_for comment, :url => "admins/comments" do |f|
+        f.inputs :resource
+      end
+      
+    end
+    
+    it "should not generate any field" do
+      body.should have_tag("form", :attributes => { :method => 'post' })
+      body.should_not have_tag("select")
     end
   end
 
@@ -209,7 +215,7 @@ describe ActiveAdmin::FormBuilder do
       body = build_form do |f|
         f.input :title, :wrapper_html => { :class => "important" }
       end
-      body.should have_tag("li", :attributes => {:class => "important string input optional stringish"})
+      body.should have_tag("li", :attributes => {:class => "string optional important"})
     end
   end
 
