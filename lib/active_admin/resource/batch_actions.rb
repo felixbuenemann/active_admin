@@ -47,7 +47,7 @@ module ActiveAdmin
       
       # Path to the batch action itself
       def batch_action_path
-        [:batch_action, namespace.name, plural_underscored_resource_name]
+        [:batch_action, namespace.name, resource.model_name.pluralize.underscore]
       end
       
     end
