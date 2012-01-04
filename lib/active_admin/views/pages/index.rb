@@ -15,20 +15,49 @@ module ActiveAdmin
         # Render's the index configuration that was set in the
         # controller. Defaults to rendering the ActiveAdmin::Pages::Index::Table
         def main_content
-          build_scopes
+          batch_action_form do
+            div :class => "table_tools" do
+              a :class => 'table_tools_button disabled', :href => "#", :id => "batch_actions_button" do
+                text_node "Batch Actions"
+                span :class => "arrow"
+              end
+            
+              build_scopes
+            end
 
-          if collection.any?
-            render_index
-          else
-            if params[:q]
-              render_empty_results
+            build_batch_action_popover
+
+            if collection.any?
+              render_index
             else
-              render_blank_slate
+              if params[:q]
+                render_empty_results
+              else
+                render_blank_slate
+              end
             end
           end
         end
 
         protected
+        
+        
+        # TODO: Refactor to new HTML DSL
+        def build_download_format_links(formats = [:csv, :xml, :json])
+          links = formats.collect do |format|
+            link_to format.to_s.upcase, { :format => format}.merge(request.query_parameters.except(:commit, :format))
+          end
+          text_node [I18n.t('active_admin.download'), links].flatten.join("&nbsp;").html_safe
+        end
+
+        def build_batch_action_popover
+          input(:name => :batch_action, :id => :batch_action, :type => :hidden)
+          insert_tag view_factory.batch_action_popover do
+            active_admin_config.batch_actions.each do |the_action|
+              action the_action if call_method_or_proc_on(self, the_action.display_if_block)
+            end
+          end
+        end
 
         def build_scopes
           if active_admin_config.scopes.any?
@@ -40,6 +69,7 @@ module ActiveAdmin
         # with each column displayed as well as all the default actions
         def default_index_config
           @default_index_config ||= ::ActiveAdmin::PageConfig.new(:as => :table) do |display|
+            selectable_column
             id_column
             resource_class.content_columns.each do |col|
               column col.name.to_sym
