@@ -16,7 +16,7 @@ module ActiveAdmin
         options = args.extract_options!
         options[:class] ||= []
         options[:class] += %w(batch_action)
-        super( "%s Selected" % batch_action.title, "#", options.merge( "data-action" => batch_action.sym, "data-request-confirm" => batch_action.confirm ) )
+        super( I18n.t('active_admin.batch_action_select', :action => batch_action.title), "#", options.merge( "data-action" => batch_action.sym, "data-request-confirm" => batch_action.confirm ) )
       end
 
     end

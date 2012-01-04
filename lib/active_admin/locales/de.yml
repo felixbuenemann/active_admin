@@ -7,7 +7,9 @@ de:
     view: "Anzeigen"
     edit: "Bearbeiten"
     delete: "Löschen"
-    delete_confirmation: "Wollen Sie dieses Element wirklich löschen?"
+    delete_confirmation:
+      one: "Wollen Sie diesen Eintrag wirklich löschen?"
+      other: "Wollen Sie diese Einträge wirklich löschen?"
     new_model: "%{model} erstellen"
     edit_model: "%{model} bearbeiten"
     delete_model: "%{model} löschen"
@@ -41,3 +43,7 @@ de:
     blank_slate:
       content: "Es gibt noch keine %{resource_name}."
       link: "Erstellen"
+    selection_toggle_explanation: "(Auswahl umkehren)"
+    batch_actions: "Stapelaktionen"
+    batch_action_select: "Ausgewählte %{action}"
+    deleted: "gelöscht"

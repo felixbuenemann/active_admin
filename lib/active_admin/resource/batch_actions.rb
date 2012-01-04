@@ -15,9 +15,9 @@ module ActiveAdmin
       
       # @return [ActiveAdmin::BatchAction] The default "delete" action
       def default_batch_action
-        action = ActiveAdmin::BatchAction.new :destroy, I18n.t('active_admin.delete'), :priority => 100, :confirm => I18n.t('active_admin.delete_confirmation') do |selection|
-          selection.each { |r| r.destroy }
-          redirect_to collection_path, :notice => "#{selection.length} #{selection.length == 1 ? active_admin_config.resource_name : active_admin_config.plural_resource_name} Deleted"
+        action = ActiveAdmin::BatchAction.new :destroy, I18n.t('active_admin.delete'), :priority => 100, :confirm => I18n.t('active_admin.delete_confirmation', :count => 2) do |selection|
+          active_admin_config.resource.find(selection).each(&:destroy)
+          redirect_to collection_path, :notice => "#{selection.length} #{selection.length == 1 ? active_admin_config.resource_name : active_admin_config.plural_resource_name} #{I18n.t('active_admin.deleted')}"
         end
       end
       

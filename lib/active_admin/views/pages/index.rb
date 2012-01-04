@@ -18,7 +18,7 @@ module ActiveAdmin
           batch_action_form do
             div :class => "table_tools" do
               a :class => 'table_tools_button disabled', :href => "#", :id => "batch_actions_button" do
-                text_node "Batch Actions"
+                text_node I18n.t('active_admin.batch_actions')
                 span :class => "arrow"
               end
             

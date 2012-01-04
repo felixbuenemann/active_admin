@@ -42,3 +42,6 @@ en:
       content: "There are no %{resource_name} yet."
       link: "Create one"
     selection_toggle_explanation: "(Toggle Selection)"
+    batch_actions: "Batch Actions"
+    batch_action_select: "%{action} Selected"
+    deleted: "Deleted"
